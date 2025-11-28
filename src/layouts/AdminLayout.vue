@@ -18,7 +18,7 @@
         <div class="user-info">
           <span>Xin chào, {{ loginStore.user?.username || 'Admin' }}</span>
         </div>
-        <button class="logout-btn" @click="logout">Logout</button>
+        <a href="#" class="logout-link " @click.prevent="logout">Logout</a>
       </header>
 
       <!-- Page content -->
@@ -36,12 +36,12 @@ import { useLoginStore } from '@/stores/LoginStore'
 const router = useRouter()
 const loginStore = useLoginStore()
 
-// Nếu người dùng chưa login hoặc không phải Admin, redirect ra trang Home
+
 if (!loginStore.user || loginStore.user.role !== 'Admin') {
   router.push('/')
 }
 
-// Logout
+
 const logout = () => {
   loginStore.logout()
   router.push('/')
@@ -54,7 +54,6 @@ const logout = () => {
   height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
   color: white;
@@ -88,14 +87,13 @@ const logout = () => {
   border-radius: 4px;
 }
 
-/* Main content */
+
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -106,21 +104,24 @@ const logout = () => {
   border-bottom: 1px solid #bdc3c7;
 }
 
-.logout-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  background-color: #e74c3c;
-  color: white;
+.logout-link {
+  display: inline-block;
+  padding: 0.375rem 0.75rem; 
+  color: #0d6efd;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+}
+
+.logout-link:hover {
+  background-color: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
-.logout-btn:hover {
-  background-color: #c0392b;
-}
 
-/* Page content */
 .content {
   flex: 1;
   padding: 20px;

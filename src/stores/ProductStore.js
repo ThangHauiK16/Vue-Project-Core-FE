@@ -14,27 +14,29 @@ export const useProductStore = defineStore('product', () => {
     const error = ref('')
 
     const page = ref(1)
-    const pageSize = ref(5)
+    const pageSize = ref(10)
     const totalItems = ref(0)
     const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value))
 
-    const getBooks = async(p = page.value , k = '') => {
-        loading.value = true
-        error.value = ''
-        try {
-            const res = await axios.get('/api/sach/page', {
-                params: { page: p, pageSize: pageSize.value, search: k }
-            })
-            books.value = res.data.items
-            totalItems.value = res.data.totalItems
-            page.value = res.data.page
-        } catch (err) {
-            error.value = err.response?.data?.message || 'Lỗi khi lấy danh sách sách'
-            toast.error(error.value)
-        } finally {
-            loading.value = false
-        }
+    const getBooks = async (p = page.value, k = '', size = pageSize.value) => {
+    loading.value = true
+    error.value = ''
+    try {
+        const res = await axios.get('/api/sach/page', {
+            params: { page: p, pageSize: size, search: k }
+        })
+        books.value = res.data.items
+        totalItems.value = res.data.totalItems
+        page.value = res.data.page
+        pageSize.value = size
+    } catch (err) {
+        error.value = err.response?.data?.message || 'Lỗi khi lấy danh sách sách'
+        toast.error(error.value)
+    } finally {
+        loading.value = false
     }
+}
+
 
     const prevPage = () => {
         if (page.value > 1) getBooks(page.value - 1)

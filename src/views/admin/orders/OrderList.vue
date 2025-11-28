@@ -34,11 +34,11 @@ const confirmDelete = (order) => {
     }
   })
 }
-const openAddModal = () => {
-  modalTitle.value = "Thêm hoá đơn"
-  selectedOrder.value = null
-  showModal.value = true
-}
+// const openAddModal = () => {
+//   modalTitle.value = "Thêm hoá đơn"
+//   selectedOrder.value = null
+//   showModal.value = true
+// }
 const openEditModal = async (order) => {
   modalTitle.value = "Cập nhật hoá đơn"
 
@@ -86,9 +86,10 @@ const loadBook = async () => {
 
 <template>
   <div>
-    <h2>Quản lý hoá đơn</h2>
+   
     <div class="d-flex justify-content-between">
-      <button class="btn btn-success mb-2"  @click="openAddModal">Add Order</button>
+      <!-- <button class="btn btn-success mb-2"  @click="openAddModal">Add Order</button> -->
+      <h2>Quản lý hoá đơn</h2>
       <div class="input-group input-group-sm mb-2" style="max-width: 350px;">
         <input type="text" class="form-control" placeholder="Nhập mã hoá đơn hoặc tên người đặt"
                v-model="search" @keyup.enter="searchOrder">
@@ -141,12 +142,12 @@ const loadBook = async () => {
       @save="saveOrder"
     />
     <DetailOrderModal
-    :show="showDetailModal"
-    :title="'Chi tiết hoá đơn ' + (selectedOrder?.maHoaDon || '')"
-    :order="selectedOrder"
-    :books="books"
-    @close="showDetailModal = false"
-  />
+      :show="showDetailModal"
+      :title="'Chi tiết hoá đơn ' + (selectedOrder?.maHoaDon || '')"
+      :order="selectedOrder"
+      :books="books"
+      @close="showDetailModal = false"
+   />
 
   </div>
 </template>

@@ -8,7 +8,8 @@ export const useLoginStore = defineStore('login', () => {
 
   const loading = ref(false)
   const error = ref('')
-
+  const cartCount = ref(0)
+  
   
   const storedUser = localStorage.getItem('user')
   const user = ref(storedUser ? JSON.parse(storedUser) : null)
@@ -51,6 +52,9 @@ export const useLoginStore = defineStore('login', () => {
     localStorage.removeItem('user')
     toast.info('Bạn đã đăng xuất')
   }
+  const setCartCount = (count) => {
+    cartCount.value = count
+  }
 
-  return { user, loading, error, login, logout }
+  return { user, loading, error,cartCount, login, logout,setCartCount}
 })
