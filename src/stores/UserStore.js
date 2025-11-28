@@ -1,0 +1,92 @@
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+import axios from 'axios'
+import { useToast } from 'vue-toastification'
+
+export const useUserStore = defineStore('user', () => {
+  const toast = useToast()
+
+  const users = ref([])
+  const loading = ref(false)
+  const error = ref('')
+
+  const page = ref(1)
+  const pageSize = ref(10)
+  const totalItems = ref(0)
+  const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value))
+
+  const getUsers = async (p = page.value, k = '') => {
+  loading.value = true
+  error.value = ''
+  try {
+    const res = await axios.get('/api/user', {
+      params: { page: p, pageSize: pageSize.value, keyword: k }
+    })
+    users.value = res.data.items
+    totalItems.value = res.data.totalItems
+    page.value = res.data.page
+  } catch (err) {
+    error.value = err.response?.data?.message || 'Lỗi khi lấy danh sách người dùng'
+    toast.error(error.value)
+  } finally {
+    loading.value = false
+  }
+}
+
+  const deleteUser = async (username) => {
+    loading.value = true
+    error.value = ''
+    try {
+      await axios.delete(`/api/user/${username}`)
+      toast.success(`Xóa user ${username} thành công`)
+      getUsers(page.value) 
+    } catch (err) {
+      error.value = err.response?.data?.message || 'Lỗi khi xóa người dùng'
+      toast.error(error.value)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const prevPage = () => {
+    if (page.value > 1) getUsers(page.value - 1)
+  }
+
+  const nextPage = () => {
+    if (page.value < totalPages.value) getUsers(page.value + 1)
+  }
+
+  const updateUser = async (username , data) => {
+    loading.value = true 
+    error.value = ''
+    try {
+        await axios.put(`/api/user/${username}` , data)
+        toast.success(`Cập nhật user ${username} thành công`)
+        await getUsers(page.value) 
+    } catch (error) {
+        error.value = error.response?.data?.message || 'Lỗi khi cập nhật người dùng'
+        toast.error(error.value)
+    }finally{
+        loading.value = false
+    }
+  }
+
+const searchUser = (keyword) => {
+  getUsers(1, keyword.trim())
+}
+  return {
+    users,
+    loading,
+    error,
+    page,
+    pageSize,
+    totalItems,
+    totalPages,
+    getUsers,
+    deleteUser,
+    prevPage,
+    nextPage,
+    updateUser,
+    searchUser
+  }
+})

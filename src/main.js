@@ -14,7 +14,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const app = createApp(App)
 
 app.use(createPinia())
-app.use(Toast, { position: 'top-right', timeout: 1500 })
+app.use(Toast, { position: 'bottom-right', timeout: 1500 })
 app.use(router)
 
 app.mount('#app')

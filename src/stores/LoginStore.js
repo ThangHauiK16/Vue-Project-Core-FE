@@ -2,36 +2,42 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
-
+import {getRoleFromToken} from '@/utils/flex'
 export const useLoginStore = defineStore('login', () => {
   const toast = useToast()
 
-  let storedUser = null
-  try {
-    const tmp = localStorage.getItem('user')
-    storedUser = tmp ? JSON.parse(tmp) : null
-  } catch (e) {
-    storedUser = null
-  }
-
-  const user = ref(storedUser)
   const loading = ref(false)
   const error = ref('')
+
+  
+  const storedUser = localStorage.getItem('user')
+  const user = ref(storedUser ? JSON.parse(storedUser) : null)
+
+  
 
   const login = async (username, password) => {
     loading.value = true
     error.value = ''
     try {
       const res = await axios.post('/api/auth/login', { username, password })
+      const token = res.data.token
+
+      const role = getRoleFromToken(token)
+
+     
+      user.value = {
+        username: res.data.username,
+        role: role
+      }
+
       
-      user.value = { username: res.data.username }
-      localStorage.setItem('token', res.data.token)
+      localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(user.value))
-      
+
       toast.success(`Chào mừng ${user.value.username}! Đăng nhập thành công.`)
       return true
     } catch (err) {
-      error.value = err.response?.data || 'Đăng nhập thất bại'
+      error.value = err.response?.data?.message || 'Đăng nhập thất bại'
       toast.error(error.value)
       return false
     } finally {

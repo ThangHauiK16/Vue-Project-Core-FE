@@ -6,7 +6,6 @@ import { useRouter } from 'vue-router'
 const username = ref('')
 const password = ref('')
 
-
 const loginStore = useLoginStore()
 const router = useRouter()
 
@@ -14,13 +13,18 @@ const onSubmit = async (e) => {
   e.preventDefault()
   const success = await loginStore.login(username.value, password.value)
   if (success) {
-    router.push('/dashboard')
+   
+    if (loginStore.user.role === 'Admin') {
+      router.push('/admin/dashboard')
+    } else {
+      router.push('/home')
+    }
   }
 }
 </script>
 
 <template>
-  <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="d-flex justify-content-center align-items-center vh-100 ">
     <div class="card shadow p-4" style="width: 380px; border-radius: 12px;">
       <h3 class="text-center mb-3">Đăng nhập</h3>
 
@@ -33,14 +37,6 @@ const onSubmit = async (e) => {
         <div class="mb-3">
           <label class="form-label">Password</label>
           <input v-model="password" type="password" class="form-control" placeholder="Nhập mật khẩu..." />
-        </div>
-
-        <div class="d-flex justify-content-between mb-3">
-          <div>
-            <input type="checkbox" id="remember-me" class="me-2"  />
-            <label for="remember-me">Ghi nhớ</label>
-          </div>
-          <a href="#" class="text-decoration-none">Quên mật khẩu?</a>
         </div>
 
         <button type="submit" class="btn btn-primary w-100" :disabled="loginStore.loading">

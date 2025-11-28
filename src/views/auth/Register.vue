@@ -21,7 +21,7 @@ const onSubmit = async (e) => {
 }
 </script>
 <template>
-     <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+     <div class="d-flex justify-content-center align-items-center vh-100 ">
     <div class="card shadow p-4" style="width: 380px; border-radius: 12px;">
       <h3 class="text-center mb-3">Đăng ký</h3>
 
