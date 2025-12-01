@@ -10,19 +10,17 @@ import axios from 'axios'
 
 const productStore = useProductStore()
 
-// Reactive states
 const filteredBooks = ref([])
 const selectedCategory = ref(null)
 const orderBook = ref(null)
 const showOrderModal = ref(false)
 
-// Computed categories
+
 const categories = computed(() => {
   const cats = new Set(productStore.books.map(b => b.theLoai))
   return Array.from(cats)
 })
 
-// Filter books based on selected category
 const filterBooks = async (cat) => {
   selectedCategory.value = cat
 
@@ -35,20 +33,19 @@ const filterBooks = async (cat) => {
 }
 
 
-// Search books
+
 const handleSearch = async (keyword) => {
   await productStore.searchBook(keyword,8)
   filteredBooks.value = [...productStore.books]  
 }
 
 
-// Open order modal
 const handleOrder = (book) => {
   orderBook.value = book
   showOrderModal.value = true
 }
 
-// Pay order
+
 const payOrder = async ({ book, quantity }) => {
   try {
     const token = localStorage.getItem('token')
@@ -63,7 +60,7 @@ const payOrder = async ({ book, quantity }) => {
   }
 }
 
-// Fetch books on mounted
+
 onMounted(async () => {
   await productStore.getBooks(1,'',8)
   filteredBooks.value = selectedCategory.value
@@ -71,7 +68,6 @@ onMounted(async () => {
     : [...productStore.books]
 })
 
-// Watch store.books change
 watch(() => productStore.books, (newBooks) => {
   if (!selectedCategory.value || selectedCategory.value === "Tất cả") {
     filteredBooks.value = [...newBooks]
