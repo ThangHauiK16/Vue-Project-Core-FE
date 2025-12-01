@@ -15,16 +15,17 @@ export const useUserStore = defineStore('user', () => {
   const totalItems = ref(0)
   const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value))
 
-  const getUsers = async (p = page.value, k = '') => {
+  const getUsers = async (p = page.value, k = '',size = pageSize.value) => {
   loading.value = true
   error.value = ''
   try {
     const res = await axios.get('/api/user', {
-      params: { page: p, pageSize: pageSize.value, keyword: k }
+      params: { page: p, pageSize: size, keyword: k }
     })
     users.value = res.data.items
     totalItems.value = res.data.totalItems
     page.value = res.data.page
+    pageSize.value = size
   } catch (err) {
     error.value = err.response?.data?.message || 'Lỗi khi lấy danh sách người dùng'
     toast.error(error.value)

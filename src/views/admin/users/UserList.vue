@@ -22,7 +22,7 @@ const keyword = ref("")
 
 // Lấy danh sách user
 onMounted(() => {
-  userStore.getUsers()
+  userStore.getUsers(1,'',5)
 })
 
 // Xác nhận xóa

@@ -17,11 +17,11 @@ const showDetail = ref(false)
 const detailBook = ref(null)
 
 onMounted(() => {
-  productStore.getBooks(1,'',10)
+  productStore.getBooks(1,'',5)
 })
 
 const searchBook = () => {
-  productStore.searchBook(search.value,10)
+  productStore.searchBook(search.value,5)
 }
 
 const confirmDelete = (sach) => {
