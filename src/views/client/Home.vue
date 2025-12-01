@@ -35,8 +35,8 @@ const filterBooks = async (cat) => {
 
 
 const handleSearch = async (keyword) => {
-  await productStore.searchBook(keyword,8)
-  filteredBooks.value = [...productStore.books]  
+  await productStore.searchBook(keyword, 8)
+  filteredBooks.value = [...productStore.books]
 }
 
 
@@ -53,7 +53,7 @@ const payOrder = async ({ book, quantity }) => {
       NgayTao: new Date().toISOString(),
       Username: JSON.parse(atob(token.split('.')[1])).unique_name,
       HoaDon_Saches: [{ MaSach: book.maSach, SoLuong: quantity }]
-    }, { headers: { Authorization: `Bearer ${token}` }})
+    }, { headers: { Authorization: `Bearer ${token}` } })
     showOrderModal.value = false
   } catch (err) {
     console.error(err)
@@ -62,7 +62,7 @@ const payOrder = async ({ book, quantity }) => {
 
 
 onMounted(async () => {
-  await productStore.getBooks(1,'',8)
+  await productStore.getBooks(1, '', 8)
   filteredBooks.value = selectedCategory.value
     ? productStore.books.filter(b => b.theLoai === selectedCategory.value)
     : [...productStore.books]
@@ -79,39 +79,27 @@ watch(() => productStore.books, (newBooks) => {
 </script>
 
 <template>
-<div class="row">
-  <div class="col-md-2" style="margin-top: 1rem;">
-   <div class="container">
-     <CategoryList @filter="filterBooks" />
-   </div>
-  </div>
-  <div class="col-md-10">
-    <div class="row">
-      <SearchBar @search="handleSearch" />
+  <div class="row">
+    <div class="col-md-2" style="margin-top: 1rem;">
+      <div class="sticky-top" style="top: 127px;">
+        <div class="container">
+          <CategoryList @filter="filterBooks" />
+        </div>
+      </div>
     </div>
-    
-    
-    <div class="row me-5">
-      <BookCard 
-        v-for="book in filteredBooks" 
-        :key="book.maSach" 
-        :book="book"
-        @order="handleOrder"
-      />
-    </div>
-    <Pagination 
-      :page="productStore.page" 
-      :totalPages="productStore.totalPages" 
-      @change="productStore.getBooks"
-    />
-    
-  </div>
+    <div class="col-md-10">
+      <div class="row">
+        <SearchBar @search="handleSearch" />
+      </div>
 
-  <OrderModal 
-    :book="orderBook" 
-    :show="showOrderModal" 
-    @close="showOrderModal=false" 
-    @pay="payOrder"
-  />
-</div>
+
+      <div class="row me-5">
+        <BookCard v-for="book in filteredBooks" :key="book.maSach" :book="book" @order="handleOrder" />
+      </div>
+      <Pagination :page="productStore.page" :totalPages="productStore.totalPages" @change="productStore.getBooks" />
+
+    </div>
+
+    <OrderModal :book="orderBook" :show="showOrderModal" @close="showOrderModal = false" @pay="payOrder" />
+  </div>
 </template>

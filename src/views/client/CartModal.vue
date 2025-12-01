@@ -166,7 +166,7 @@ watch(() => props.show, (val) => {
           </div>
           <div class="modal-footer">
             <div class="me-auto fw-bold">
-              Tổng: {{ (totalPrice.value || 0).toLocaleString('vi-VN') }} VNĐ
+              Tổng: {{ (totalPrice || 0).toLocaleString('vi-VN') }} VNĐ
             </div>
             <button class="btn btn-secondary" @click="closeModal">Hủy</button>
             <button class="btn btn-success" @click="checkout">Thanh toán</button>
