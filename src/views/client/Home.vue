@@ -122,10 +122,10 @@ const filterByPrice = () => {
            <div>
             <select class="form-select" v-model="selectedPrice" @change="filterByPrice">
               <option value="all">Tất cả giá</option>
-              <option value="under100">Dưới 100.000₫</option>
-              <option value="100-200">100.000₫ - 200.000₫</option>
-              <option value="200-500">200.000₫ - 500.000₫</option>
-              <option value="above500">Trên 500.000₫</option>
+              <option value="under100">Dưới 100.000 VNĐ</option>
+              <option value="100-200">100.000 VNĐ - 200.000 VNĐ</option>
+              <option value="200-500">200.000 VNĐ - 500.000 VNĐ</option>
+              <option value="above500">Trên 500.000 VNĐ</option>
             </select>
           </div>
           

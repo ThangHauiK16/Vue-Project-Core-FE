@@ -126,32 +126,19 @@ const statusToText = (status) => {
           </td>
           <td>{{ o.ngayTao }}</td>
           <td>
-            <span
-              :class="{
-                'text-warning': o.trangThai === 'pending',
-                'text-success': o.trangThai === 'success',
-                'text-danger': o.trangThai === 'cancel'
-              }"
-            >
+            <span :class="{'text-warning': o.trangThai === 'pending','text-success': o.trangThai === 'success', 'text-danger': o.trangThai === 'cancel'  }">
               {{statusToText (o.trangThai) }}
-            </span>
+            </span>   
           </td>
 
           <td class="text-center align-middle">
 
-            <button
-              v-if="o.trangThai === 'pending' || o.trangThai === 'cancel'"
-              class="btn btn-sm btn-success me-2"
-              @click="orderStore.approveOrder(o.maHoaDon)"
-            >
+            <button  v-if="o.trangThai === 'pending' || o.trangThai === 'cancel'"  class="btn btn-sm btn-success me-2"
+                    @click="orderStore.approveOrder(o.maHoaDon)">
               Duyệt
             </button>
 
-            <button
-              v-if="o.trangThai === 'success'"
-              class="btn btn-sm btn-warning me-2"
-              @click="orderStore.cancelOrder(o.maHoaDon)"
-            >
+            <button v-if="o.trangThai === 'success'"  class="btn btn-sm btn-warning me-2" @click="orderStore.cancelOrder(o.maHoaDon)" >
               Huỷ Duyệt
             </button>
 
