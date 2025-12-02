@@ -3,10 +3,15 @@ import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { useLoginStore } from '@/stores/LoginStore'
 import { ref } from 'vue'
 import CartModal from '@/views/client/CartModal.vue'
+import OrderHistoryModal from '@/views/client/OrderHistoryModal.vue' 
+import { useToast } from 'vue-toastification'
 
 const loginStore = useLoginStore()
 const router = useRouter()
 const showCartModal = ref(false)
+const showOrderHistory = ref(false)
+const toast = useToast()
+
 
 const handleLogout = () => {
   loginStore.logout()
@@ -15,10 +20,17 @@ const handleLogout = () => {
 
 const openCart = () => {
   if (!loginStore.user) {
-    alert('Bạn cần đăng nhập để xem giỏ hàng!')
+    toast.warning('Bạn cần đăng nhập để xem giỏ hàng!')
     return
   }
   showCartModal.value = true
+}
+const openOrderHistory = () => {
+  if (!loginStore.user) {
+    toast.warning('Bạn cần đăng nhập để xem lịch sử đơn hàng!')
+    return
+  }
+  showOrderHistory.value = true
 }
 </script>
 
@@ -43,6 +55,12 @@ const openCart = () => {
         </li>
 
         <li v-if="loginStore.user" class="nav-item me-3">
+          <button @click="openOrderHistory" class="btn text-primary">
+            Lịch sử đơn hàng
+          </button>
+        </li>
+
+        <li v-if="loginStore.user" class="nav-item me-3">
           <button @click="openCart" class="btn  position-relative">
             🛒
             <span v-if="loginStore.cartCount > 0" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
@@ -63,8 +81,9 @@ const openCart = () => {
   <RouterView />
 </main>
 
-<!-- Modal Giỏ hàng -->
+
 <CartModal v-model:show="showCartModal" />
+<OrderHistoryModal v-model:show="showOrderHistory" />
 </template>
 
 <style scoped>

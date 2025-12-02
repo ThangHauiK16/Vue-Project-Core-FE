@@ -14,8 +14,9 @@ const onSubmit = async (e) => {
   const success = await loginStore.login(username.value, password.value)
   if (success) {
    
-    if (loginStore.user.role === 'Admin') {
+    if (loginStore.user.role === 'Admin' || loginStore.user.role === 'Staff' ) {
       router.push('/admin/dashboard')
+     
     } else {
       router.push('/home')
     }

@@ -48,7 +48,10 @@ const openEditModal = (user) => {
 
 // Xử lý cập nhật user từ modal
 const handleUpdate = async (updatedUser) => {
-  const payload = { username: updatedUser.username, role: updatedUser.role };
+  const payload = { username: updatedUser.username,
+                    email: updatedUser.email,
+                    password: updatedUser.password ,
+                    role: updatedUser.role };
   await userStore.updateUser(updatedUser.username, payload);
   showModal.value = false;
 }

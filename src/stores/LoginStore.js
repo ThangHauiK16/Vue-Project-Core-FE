@@ -26,9 +26,8 @@ export const useLoginStore = defineStore('login', () => {
      
       user.value = {
         username: res.data.username,
-        role: role
+        role: role?.charAt(0).toUpperCase() + role?.slice(1).toLowerCase() 
       }
-
       
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(user.value))

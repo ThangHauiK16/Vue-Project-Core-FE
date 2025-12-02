@@ -1,20 +1,20 @@
+
 <template>
   <div v-if="show">
     <div class="modal fade show" style="display: block;">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
-       
+
           <div class="modal-header">
             <h5 class="modal-title">{{ title }}</h5>
-            <button class="btn-close" @click="$emit('close')"></button>
+            <button class="btn-close" @click="closeModal"></button>
           </div>
 
-         
           <div class="modal-body">
             <p><strong>Mã Hóa Đơn:</strong> {{ order?.maHoaDon }}</p>
             <p><strong>Ngày Tạo:</strong> {{ formatDate(order?.ngayTao) }}</p>
             <p><strong>Người Tạo:</strong> {{ order?.username }}</p>
-            <p><strong>Trạng Thái: </strong> {{ statusToText(order.trangThai) }}</p>
+            <p><strong>Trạng Thái:</strong> {{statusToText (order?.trangThai) }}</p>
 
             <h5 class="mt-4">Sản Phẩm:</h5>
             <table class="table table-bordered table-sm">
@@ -31,7 +31,7 @@
                   <td>{{ item.maSach }}</td>
                   <td>{{ getBookName(item.maSach) }}</td>
                   <td>{{ item.soLuong }}</td>
-                  <td>{{ getPrice(item) }}</td>
+                  <td>{{ formatCurrency(getPrice(item)) }}</td>
                 </tr>
                 <tr v-if="!order?.hoaDon_Saches || order.hoaDon_Saches.length === 0">
                   <td colspan="4" class="text-center">Không có sản phẩm nào.</td>
@@ -42,19 +42,19 @@
             <div class="d-flex justify-content-end mt-2">
               <h5>
                 <strong>Tổng tiền: </strong>
-                <span class="text-success">{{ totalPrice.toLocaleString('vi-VN') }} VNĐ</span>
+                <span class="text-success">{{ formatCurrency(totalPrice) }}</span>
               </h5>
             </div>
           </div>
 
-      
           <div class="modal-footer">
-            <button class="btn btn-secondary" @click="$emit('close')">Đóng</button>
+            <button class="btn btn-secondary" @click="closeModal">Đóng</button>
           </div>
+
         </div>
       </div>
     </div>
-    <div class="modal-backdrop fade show"></div>
+    <div class="modal-backdrop fade show" @click="closeModal"></div>
   </div>
 </template>
 
@@ -67,12 +67,16 @@ const props = defineProps({
   books: Array,
   title: String
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['update:show'])
 
-const formatDate = (iso) => {
-  if (!iso) return ''
-  return new Date(iso).toLocaleString('vi-VN')
+const closeModal = () => emit('update:show', false)
+
+const formatCurrency = (amount) => {
+  if (amount == null) return '0 VNĐ'
+  return Number(amount).toLocaleString('vi-VN') + ' VNĐ'
 }
+
+const formatDate = (iso) => iso ? new Date(iso).toLocaleString('vi-VN') : ''
 
 const getBookName = (maSach) => {
   const book = props.books.find(b => b.maSach === maSach)

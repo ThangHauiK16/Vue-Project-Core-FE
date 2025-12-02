@@ -22,7 +22,7 @@ const emit = defineEmits(["close"])
 
           <div class="modal-body">
             <p><strong>Username:</strong> {{ user?.username }}</p>
-            <p><strong>Password:</strong> {{ user?.password }}</p>
+            <p><strong>Email:</strong> {{ user?.email }}</p>
             <p><strong>Role:</strong> {{ user?.role }}</p>
           </div>
 

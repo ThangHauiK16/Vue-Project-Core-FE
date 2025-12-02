@@ -8,14 +8,17 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'update'])
 
-const editUser = ref({ username: '', role: 'Customer' })
+const editUser = ref({ username: '',
+                       email: '',
+                       password: '',
+                       role: 'Customer' })
 
-// Khi props.user thay đổi, clone dữ liệu vào editUser
+
 watch(() => props.user, (newVal) => {
   if (newVal) editUser.value = { ...newVal }
 })
 
-// Submit form
+
 const submit = () => {
   emit('update', { ...editUser.value })
 }
@@ -36,10 +39,19 @@ const submit = () => {
               <input class="form-control" v-model="editUser.username" disabled />
             </div>
             <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input class="form-control" v-model="editUser.email"  />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <textarea class="form-control" v-model="editUser.password" disabled ></textarea>
+            </div>
+            <div class="mb-3">
               <label class="form-label">Role</label>
               <select class="form-select" v-model="editUser.role">
                 <option value="Admin">Admin</option>
                 <option value="Customer">Customer</option>
+                <option value="Staff">Staff</option>
               </select>
             </div>
           </div>

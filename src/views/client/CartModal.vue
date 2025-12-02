@@ -107,10 +107,10 @@ const checkout = async () => {
     loginStore.cartItems = []
     loginStore.setCartCount(0)
     closeModal()
-    toast.success('Thanh toán thành công!')
+    toast.success('Đặt Hàng thành công!')
   } catch (error) {
     console.error(error)
-    toast.warning('Thanh toán thất bại!')
+    toast.warning('Đặt Hàng thất bại!')
   }
 }
 
@@ -169,7 +169,7 @@ watch(() => props.show, (val) => {
               Tổng: {{ (totalPrice || 0).toLocaleString('vi-VN') }} VNĐ
             </div>
             <button class="btn btn-secondary" @click="closeModal">Hủy</button>
-            <button class="btn btn-success" @click="checkout">Thanh toán</button>
+            <button class="btn btn-success" @click="checkout">Đặt Hàng</button>
           </div>
         </div>
       </div>

@@ -48,7 +48,7 @@ export const useOrderStore = defineStore('order', () => {
         getOrders(1, keyword.trim())
     }
 
-    // ===================== GET BY ID ======================
+  
     const getOrderById = async (id) => {
         loading.value = true
         try {
@@ -63,7 +63,7 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
-    // ===================== CREATE ORDER ======================
+    
     const createOrder = async (data) => {
         loading.value = true
         try {
@@ -77,7 +77,7 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
-    // ===================== UPDATE ORDER ======================
+    
     const updateOrder = async (id, data) => {
         loading.value = true
         try {
@@ -91,7 +91,7 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
-    // ===================== DELETE ORDER ======================
+    
     const deleteOrder = async (id) => {
         loading.value = true
         try {
@@ -104,6 +104,28 @@ export const useOrderStore = defineStore('order', () => {
             loading.value = false
         }
     }
+   
+    const approveOrder = async (id) => {
+        try {
+            await axios.put(`/api/hoadon/${id}/approve`)
+            toast.success("Duyệt hoá đơn thành công")
+            await getOrders(page.value)
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Lỗi khi duyệt hoá đơn")
+        }
+    }
+
+
+    const cancelOrder = async (id) => {
+        try {
+            await axios.put(`/api/hoadon/${id}/cancel`)
+            toast.success("Huỷ hoá đơn thành công")
+            await getOrders(page.value)
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Lỗi khi huỷ hoá đơn")
+        }
+    }
+
 
     return {
         orders,
@@ -125,6 +147,10 @@ export const useOrderStore = defineStore('order', () => {
         getOrderById,
         createOrder,
         updateOrder,
-        deleteOrder
+        deleteOrder,
+
+        approveOrder,
+        cancelOrder
+
     }
 })

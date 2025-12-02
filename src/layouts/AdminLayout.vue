@@ -37,7 +37,7 @@ const router = useRouter()
 const loginStore = useLoginStore()
 
 
-if (!loginStore.user || loginStore.user.role !== 'Admin') {
+if (!loginStore.user ) {
   router.push('/')
 }
 

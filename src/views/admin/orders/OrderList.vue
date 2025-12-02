@@ -82,6 +82,15 @@ const loadBook = async () => {
   const res = await axios.get('/api/sach')
   books.value = res.data
 }
+
+const statusToText = (status) => {
+  switch (status) {
+    case "pending": return "Chờ xử lý"
+    case "success": return "Đã duyệt"
+    case "cancel":  return "Đã huỷ"
+    default:        return status
+  }
+}
 </script>
 
 <template>
@@ -105,6 +114,7 @@ const loadBook = async () => {
           <th>STT</th>
           <th>Mã hoá đơn</th>
           <th>Ngày tạo</th>
+          <th>Trạng thái</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -115,10 +125,46 @@ const loadBook = async () => {
             {{ o.maHoaDon }}
           </td>
           <td>{{ o.ngayTao }}</td>
-          <td class="text-center align-middle">
-            <button class="btn btn-sm btn-primary me-3 ms-3" @click="openEditModal(o)">Edit</button>
-            <button class="btn btn-sm btn-danger" @click="confirmDelete(o)">Delete</button>
+          <td>
+            <span
+              :class="{
+                'text-warning': o.trangThai === 'pending',
+                'text-success': o.trangThai === 'success',
+                'text-danger': o.trangThai === 'cancel'
+              }"
+            >
+              {{statusToText (o.trangThai) }}
+            </span>
           </td>
+
+          <td class="text-center align-middle">
+
+            <button
+              v-if="o.trangThai === 'pending' || o.trangThai === 'cancel'"
+              class="btn btn-sm btn-success me-2"
+              @click="orderStore.approveOrder(o.maHoaDon)"
+            >
+              Duyệt
+            </button>
+
+            <button
+              v-if="o.trangThai === 'success'"
+              class="btn btn-sm btn-warning me-2"
+              @click="orderStore.cancelOrder(o.maHoaDon)"
+            >
+              Huỷ Duyệt
+            </button>
+
+            <button class="btn btn-sm btn-primary me-3 ms-3" @click="openEditModal(o)">
+              Edit
+            </button>
+
+            <button class="btn btn-sm btn-danger" @click="confirmDelete(o)">
+              Delete
+            </button>
+
+          </td>
+
         </tr>
       </tbody>
     </table>

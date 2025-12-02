@@ -9,7 +9,7 @@ export const useRegisterStore = defineStore('register', () => {
   const success = ref('')
   const toast = useToast()
 
-  const register = async (username, password, confirmPassword) => {
+  const register = async (username, email, password, confirmPassword) => {
     error.value = ''
     success.value = ''
 
@@ -22,7 +22,7 @@ export const useRegisterStore = defineStore('register', () => {
 
     loading.value = true
     try {
-      const res = await axios.post('/api/auth/register', { username, password })
+      const res = await axios.post('/api/auth/register', { username, email, password })
 
       success.value = res.data
       toast.success(success.value)

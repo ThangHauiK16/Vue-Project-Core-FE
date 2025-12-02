@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 
 const username = ref('')
 const password = ref('')
+const email = ref('')
 const confirmPassword = ref('')
 
 const registerStore = useRegisterStore()
@@ -12,7 +13,7 @@ const router = useRouter()
 
 const onSubmit = async (e) => {
   e.preventDefault()
-  const success = await registerStore.register(username.value, password.value, confirmPassword.value)
+  const success = await registerStore.register(username.value, email.value, password.value, confirmPassword.value)
   if (success) {
     setTimeout(() => {
       router.push('/') 
@@ -29,6 +30,11 @@ const onSubmit = async (e) => {
         <div class="mb-3">
           <label class="form-label">Username</label>
           <input v-model="username" type="text" class="form-control" placeholder="Nhập username..." required />
+        </div>
+
+         <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input v-model="email" type="email" class="form-control" placeholder="Nhập email..." required />
         </div>
 
         <div class="mb-3">
