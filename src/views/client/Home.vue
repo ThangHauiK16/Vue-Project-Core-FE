@@ -14,6 +14,7 @@ const filteredBooks = ref([])
 const selectedCategory = ref(null)
 const orderBook = ref(null)
 const showOrderModal = ref(false)
+const selectedPrice = ref("all")
 
 
 const categories = computed(() => {
@@ -74,7 +75,35 @@ watch(() => productStore.books, (newBooks) => {
   } else {
     filteredBooks.value = newBooks.filter(b => b.theLoai === selectedCategory.value)
   }
+   filterByPrice()
 })
+
+const filterByPrice = () => {
+  let books = [...productStore.books]
+
+  switch (selectedPrice.value) {
+    case "under100":
+      books = books.filter(b => b.giaBan < 100000)
+      break
+    case "100-200":
+      books = books.filter(b => b.giaBan >= 100000 && b.giaBan <= 200000)
+      break
+    case "200-500":
+      books = books.filter(b => b.giaBan >= 200000 && b.giaBan <= 500000)
+      break
+    case "above500":
+      books = books.filter(b => b.giaBan > 500000)
+      break
+    default:
+      books = [...productStore.books]
+  }
+
+  if (selectedCategory.value && selectedCategory.value !== "Tất cả") {
+    books = books.filter(b => b.theLoai === selectedCategory.value)
+  }
+
+  filteredBooks.value = books
+}
 
 </script>
 
@@ -89,7 +118,21 @@ watch(() => productStore.books, (newBooks) => {
     </div>
     <div class="col-md-10">
       <div class="row">
-        <SearchBar @search="handleSearch" />
+        <div class="d-flex justify-content-between">
+           <div>
+            <select class="form-select" v-model="selectedPrice" @change="filterByPrice">
+              <option value="all">Tất cả giá</option>
+              <option value="under100">Dưới 100.000₫</option>
+              <option value="100-200">100.000₫ - 200.000₫</option>
+              <option value="200-500">200.000₫ - 500.000₫</option>
+              <option value="above500">Trên 500.000₫</option>
+            </select>
+          </div>
+          
+          <div class="">
+            <SearchBar @search="handleSearch" />
+          </div>
+        </div>
       </div>
 
 
