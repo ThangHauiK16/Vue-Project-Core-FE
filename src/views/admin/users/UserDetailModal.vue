@@ -24,6 +24,10 @@ const emit = defineEmits(["close"])
             <p><strong>Username:</strong> {{ user?.username }}</p>
             <p><strong>Email:</strong> {{ user?.email }}</p>
             <p><strong>Role:</strong> {{ user?.role }}</p>
+            <p><strong>CreateAt:</strong> {{ user?.createdAt }}</p>
+            <p><strong>CreateBy:</strong> {{ user?.createdBy }}</p>
+            <p><strong>UpdateAt:</strong> {{ user?.updatedAt }}</p>
+            <p><strong>UpdateBy:</strong> {{ user?.updatedBy }}</p>
           </div>
 
           <div class="modal-footer">

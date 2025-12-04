@@ -30,7 +30,7 @@ const fetchCart = async () => {
     const res = await axios.get(`/api/Cart/${loginStore.user.username}`)
     const items = Array.isArray(res.data.items) ? res.data.items : []
 
-    const promises = items.map(i => axios.get(`/api/sach/${i.maSach}`))
+    const promises = items.map(i => axios.get(`/api/book/${i.maSach}`))
     const results = await Promise.all(promises)
 
     loginStore.cartItems = results.map((r, idx) => ({

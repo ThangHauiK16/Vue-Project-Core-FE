@@ -22,7 +22,7 @@ export const useProductStore = defineStore('product', () => {
     loading.value = true
     error.value = ''
     try {
-        const res = await axios.get('/api/sach/page', {
+        const res = await axios.get('/api/book/page', {
             params: { page: p, pageSize: size, search: k }
         })
         books.value = res.data.items
@@ -51,7 +51,7 @@ export const useProductStore = defineStore('product', () => {
     }
 
     const getToken = () => {
-        return localStorage.getItem('token') || ''
+        return localStorage.getItem('accessToken') || ''
     }
 
     const deleteBook = async (masach) => {
@@ -59,7 +59,7 @@ export const useProductStore = defineStore('product', () => {
     error.value = ''
     try {
       const token = getToken()
-      await axios.delete(`/api/sach/${masach}`, {
+      await axios.delete(`/api/book/${masach}`, {
                 headers: { 'Authorization': `Bearer ${token}`  }
             })
       toast.success(`Xóa sách ${masach} thành công`)
@@ -82,7 +82,7 @@ export const useProductStore = defineStore('product', () => {
                 }
             }
             const token = getToken()
-            await axios.post('/api/sach', formData, {
+            await axios.post('/api/book', formData, {
                 headers: { 'Content-Type': 'multipart/form-data',  'Authorization': `Bearer ${token}`  }
             })
             toast.success(`Thêm sách thành công`)
@@ -106,7 +106,7 @@ export const useProductStore = defineStore('product', () => {
                 }
             }
             const token = getToken()
-            await axios.put(`/api/sach/${bookData.maSach}`, formData, {
+            await axios.put(`/api/book/${bookData.maSach}`, formData, {
                headers: { 'Content-Type': 'multipart/form-data',  'Authorization': `Bearer ${token}`  }
             })
             toast.success(`Cập nhật sách thành công`)

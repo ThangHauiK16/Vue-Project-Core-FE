@@ -49,11 +49,11 @@ const handleOrder = (book) => {
 
 const payOrder = async ({ book, quantity }) => {
   try {
-    const token = localStorage.getItem('token')
-    await axios.post('/api/hoadon', {
+    const token = localStorage.getItem('accessToken')
+    await axios.post('/api/order', {
       NgayTao: new Date().toISOString(),
       Username: JSON.parse(atob(token.split('.')[1])).unique_name,
-      HoaDon_Saches: [{ MaSach: book.maSach, SoLuong: quantity }]
+      Order_Books: [{ MaSach: book.maSach, SoLuong: quantity }]
     }, { headers: { Authorization: `Bearer ${token}` } })
     showOrderModal.value = false
   } catch (err) {

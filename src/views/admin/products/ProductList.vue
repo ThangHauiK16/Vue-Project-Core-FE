@@ -59,7 +59,7 @@ const handleSaved = async (bookData) => {
 }
 
 const openDetailModal = async (book) => {
-  const res = await axios.get(`/api/sach/${book.maSach}`)
+  const res = await axios.get(`/api/book/${book.maSach}`)
   detailBook.value = res.data
   showDetail.value = true
 }

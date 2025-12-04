@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user', () => {
   const users = ref([])
   const loading = ref(false)
   const error = ref('')
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("accessToken");
 
   const page = ref(1)
   const pageSize = ref(10)
@@ -39,7 +39,11 @@ export const useUserStore = defineStore('user', () => {
     loading.value = true
     error.value = ''
     try {
-      await axios.delete(`/api/user/${username}`)
+      await axios.delete(`/api/user/${username}` ,  {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+          })
       toast.success(`Xóa user ${username} thành công`)
       getUsers(page.value) 
     } catch (err) {

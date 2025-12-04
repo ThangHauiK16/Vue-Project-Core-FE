@@ -27,13 +27,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in order?.hoaDon_Saches || []" :key="index">
+                <tr v-for="(item, index) in order?.order_Books || []" :key="index">
                   <td>{{ item.maSach }}</td>
                   <td>{{ getBookName(item.maSach) }}</td>
                   <td>{{ item.soLuong }}</td>
                   <td>{{ getPrice(item) }}</td>
                 </tr>
-                <tr v-if="!order?.hoaDon_Saches || order.hoaDon_Saches.length === 0">
+                <tr v-if="!order?.order_Books || order.order_Books.length === 0">
                   <td colspan="4" class="text-center">Không có sản phẩm nào.</td>
                 </tr>
               </tbody>
@@ -85,8 +85,8 @@ const getPrice = (item) => {
 }
 
 const totalPrice = computed(() => {
-  if (!props.order?.hoaDon_Saches) return 0
-  return props.order.hoaDon_Saches.reduce((sum, item) => {
+  if (!props.order?.order_Books) return 0
+  return props.order.order_Books.reduce((sum, item) => {
     const book = props.books.find(b => b.maSach === item.maSach)
     return sum + (book ? book.giaBan * item.soLuong : 0)
   }, 0)

@@ -50,7 +50,7 @@ const activeCategory = ref('Tất cả')
 
 onMounted(async () => {
   try {
-    const res = await axios.get('/api/sach/categories')
+    const res = await axios.get('/api/book/categories')
     categories.value = ['Tất cả', ...res.data]
   } catch (err) {
     console.error('Lỗi khi lấy category:', err)

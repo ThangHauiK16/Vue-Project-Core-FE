@@ -16,7 +16,7 @@ const quantity = ref(1)
 const totalPrice = computed(() => props.book ? props.book.giaBan * quantity.value : 0)
 
 const onOrder = () => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('accessToken')
   const role = getRoleFromToken(token)
   if (role !== 'Customer') {
     toast.warning('Chỉ khách hàng mới có thể đặt hàng!')
@@ -26,7 +26,7 @@ const onOrder = () => {
 }
 
 const onAddToCart = async () => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('accessToken')
   const username = token ? JSON.parse(atob(token.split('.')[1])).unique_name : null
   if (!username) {
     toast.error('Vui lòng đăng nhập để thêm vào giỏ hàng!')

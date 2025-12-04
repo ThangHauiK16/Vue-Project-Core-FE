@@ -22,8 +22,8 @@ watch(() => props.show, (val) => {
     
      form.value = {
         ngayTao: props.order.ngayTao,
-        details: props.order.hoaDon_Saches
-            ? JSON.parse(JSON.stringify(props.order.hoaDon_Saches))
+        details: props.order.order_Books
+            ? JSON.parse(JSON.stringify(props.order.order_Books))
             : []
         }
 

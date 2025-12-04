@@ -22,7 +22,7 @@ export const useOrderStore = defineStore('order', () => {
         loading.value = true
         error.value = ''
         try {
-            const res = await axios.get('/api/hoadon/paged', {
+            const res = await axios.get('/api/order/paged', {
                 params: { page: p, pageSize: pageSize.value, search: k }
             })
             orders.value = res.data.items
@@ -52,7 +52,7 @@ export const useOrderStore = defineStore('order', () => {
     const getOrderById = async (id) => {
         loading.value = true
         try {
-            const res = await axios.get(`/api/hoadon/${id}`)
+            const res = await axios.get(`/api/order/${id}`)
             orderDetail.value = res.data
             return res.data
         } catch (err) {
@@ -67,7 +67,7 @@ export const useOrderStore = defineStore('order', () => {
     const createOrder = async (data) => {
         loading.value = true
         try {
-            await axios.post('/api/hoadon', data)
+            await axios.post('/api/order', data)
             toast.success("Thêm hoá đơn thành công")
             await getOrders(page.value)
         } catch (err) {
@@ -81,7 +81,7 @@ export const useOrderStore = defineStore('order', () => {
     const updateOrder = async (id, data) => {
         loading.value = true
         try {
-            await axios.put(`/api/hoadon/${id}`, data)
+            await axios.put(`/api/order/${id}`, data)
             toast.success("Cập nhật hoá đơn thành công")
             await getOrders(page.value)
         } catch (err) {
@@ -95,7 +95,7 @@ export const useOrderStore = defineStore('order', () => {
     const deleteOrder = async (id) => {
         loading.value = true
         try {
-            await axios.delete(`/api/hoadon/${id}`)
+            await axios.delete(`/api/order/${id}`)
             toast.success("Xoá hoá đơn thành công")
             await getOrders(page.value)
         } catch (err) {
@@ -107,7 +107,7 @@ export const useOrderStore = defineStore('order', () => {
    
     const approveOrder = async (id) => {
         try {
-            await axios.put(`/api/hoadon/${id}/approve`)
+            await axios.put(`/api/order/${id}/approve`)
             toast.success("Duyệt hoá đơn thành công")
             await getOrders(page.value)
         } catch (err) {
@@ -118,7 +118,7 @@ export const useOrderStore = defineStore('order', () => {
 
     const cancelOrder = async (id) => {
         try {
-            await axios.put(`/api/hoadon/${id}/cancel`)
+            await axios.put(`/api/order/${id}/cancel`)
             toast.success("Huỷ hoá đơn thành công")
             await getOrders(page.value)
         } catch (err) {

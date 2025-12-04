@@ -58,7 +58,7 @@ const saveOrder = async (form) => {
 
   const payload = {
     ngayTao: ngayTaoIso,
-    hoaDon_Saches: form.details,
+    order_Books: form.details,
     username:  getUserName()
   }
 
@@ -79,7 +79,7 @@ const openDetailModal = async (order) => {
 }
 
 const loadBook = async () => {
-  const res = await axios.get('/api/sach')
+  const res = await axios.get('/api/book')
   books.value = res.data
 }
 

@@ -38,8 +38,8 @@ watch(() => props.show, async (newVal) => {
 const fetchOrders = async () => {
   loading.value = true
   try {
-    const token = localStorage.getItem('token')
-    const res = await axios.get('/api/hoadon/history', {
+    const token = localStorage.getItem('accessToken')
+    const res = await axios.get('/api/order/history', {
       headers: { Authorization: `Bearer ${token}` }
     })
 
@@ -49,8 +49,8 @@ const fetchOrders = async () => {
 
     orders.value = res.data.map(order => {
       let tongTien = 0
-      if (order.hoaDon_Saches) {
-        order.hoaDon_Saches.forEach(item => {
+      if (order.order_Books) {
+        order.order_Books.forEach(item => {
           const book = booksData.find(b => b.maSach === item.maSach)
           if (book) tongTien += book.giaBan * item.soLuong
         })
@@ -82,7 +82,7 @@ const openDetail = async (order) => {
 }
 
 const loadBook = async () => {
-  const res = await axios.get('/api/sach')
+  const res = await axios.get('/api/book')
   books.value = res.data
 }
 const closeModal = () => emit('update:show', false)
