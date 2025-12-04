@@ -9,11 +9,15 @@ import { useLoginStore } from '@/stores/LoginStore'
 const loginStore = useLoginStore()  
 
 const props = defineProps({ book: Object })
-const emit = defineEmits(['order', 'add-to-cart'])
+const emit = defineEmits(['order', 'add-to-cart', 'open-detail'])
 const toast = useToast()
 
 const quantity = ref(1)
 const totalPrice = computed(() => props.book ? props.book.giaBan * quantity.value : 0)
+
+const onOpenDetail = () => {
+  emit('open-detail', props.book)
+}
 
 const onOrder = () => {
   const token = localStorage.getItem('accessToken')
@@ -63,7 +67,8 @@ const onAddToCart = async () => {
 
 <template>
 <div class="col-md-3 mb-4" v-if="book">
-  <div class="card h-100">
+  <div class="card h-100"  @dblclick="onOpenDetail"              
+       style="cursor: pointer;"> 
     <img :src="getFullImageUrl(book.imageUrl)" :alt="book.tenSach" class="card-img-top" style="object-fit: contain; height: 300px;">
     <div class="card-body text-center">
       <div class="card-title fw-semibold" style="height:2rem;">{{ book.tenSach }}</div>

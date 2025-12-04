@@ -26,7 +26,7 @@ const onSubmit = async (e) => {
 
 <template>
   <div class="d-flex justify-content-center align-items-center vh-100 ">
-    <div class="card shadow p-4" style="width: 380px; border-radius: 12px;">
+    <div class="card shadow p-4" style="width: 400px; border-radius: 12px;">
       <h3 class="text-center mb-3">Đăng nhập</h3>
 
       <form @submit="onSubmit">
@@ -50,6 +50,8 @@ const onSubmit = async (e) => {
         <div class="text-center mt-3">
           <span>Chưa có tài khoản?</span>
           <RouterLink to="/register" class="text-decoration-none ms-1">Đăng ký</RouterLink>
+          |
+          <RouterLink to="/forgetpassword" class="text-decoration-none ms-1">Quên mật khẩu</RouterLink>
         </div>
       </form>
     </div>

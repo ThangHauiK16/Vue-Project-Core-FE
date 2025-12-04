@@ -13,7 +13,7 @@ export const useRegisterStore = defineStore('register', () => {
     error.value = ''
     success.value = ''
 
-    // Check confirm password
+    
     if (password !== confirmPassword) {
       error.value = 'Mật khẩu xác nhận không khớp!'
       toast.error(error.value)
@@ -32,7 +32,7 @@ export const useRegisterStore = defineStore('register', () => {
       const data = err.response?.data
 
       if (data) {
-        // Case: ModelState (object)
+       
         if (typeof data === 'object' && !Array.isArray(data)) {
           let message = ''
 
@@ -43,7 +43,7 @@ export const useRegisterStore = defineStore('register', () => {
           error.value = message.trim()
           toast.error(error.value)
         }
-        // Case: text error (username exists)
+        
         else {
           error.value = data
           toast.error(error.value)

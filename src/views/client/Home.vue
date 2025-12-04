@@ -7,6 +7,7 @@ import BookCard from '@/components/BookCard.vue'
 import Pagination from '@/components/Pagination.vue'
 import OrderModal from '@/components/OrderModal.vue'
 import axios from 'axios'
+import BookDetailModal from '@/components/BookDetailModal.vue'
 
 const productStore = useProductStore()
 
@@ -16,6 +17,14 @@ const orderBook = ref(null)
 const showOrderModal = ref(false)
 const selectedPrice = ref("all")
 
+
+const selectedBookDetail = ref(null)
+const showDetailModal = ref(false)
+
+const openDetail = (book) => {
+  selectedBookDetail.value = book
+  showDetailModal.value = true
+}
 
 const categories = computed(() => {
   const cats = new Set(productStore.books.map(b => b.theLoai))
@@ -137,11 +146,23 @@ const filterByPrice = () => {
 
 
       <div class="row me-5">
-        <BookCard v-for="book in filteredBooks" :key="book.maSach" :book="book" @order="handleOrder" />
+        <BookCard
+          v-for="book in filteredBooks"
+          :key="book.maSach"
+          :book="book"
+          @order="handleOrder"
+          @open-detail="openDetail"
+        />
+
       </div>
       <Pagination :page="productStore.page" :totalPages="productStore.totalPages" @change="productStore.getBooks" />
 
     </div>
+    <BookDetailModal
+      :book="selectedBookDetail"
+      :show="showDetailModal"
+      @close="showDetailModal = false"
+    />
 
     <OrderModal :book="orderBook" :show="showOrderModal" @close="showOrderModal = false" @pay="payOrder" />
   </div>
