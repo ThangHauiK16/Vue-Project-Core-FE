@@ -131,26 +131,38 @@ const statusToText = (status) => {
             </span>   
           </td>
 
-          <td class="text-center align-middle">
+         <td class="text-center align-middle">
 
-            <button  v-if="o.trangThai === 'pending' || o.trangThai === 'cancel'"  class="btn btn-sm btn-success me-2"
-                    @click="orderStore.approveOrder(o.maHoaDon)">
-              Duyệt
-            </button>
+          <button v-if="o.trangThai === 'pending'" 
+                  class="btn btn-sm btn-success me-2"
+                  @click="orderStore.approveOrder(o.maHoaDon)">
+            Duyệt
+          </button>
 
-            <button v-if="o.trangThai === 'success'"  class="btn btn-sm btn-warning me-2" @click="orderStore.cancelOrder(o.maHoaDon)" >
-              Huỷ Duyệt
-            </button>
+          <button v-if="o.trangThai === 'pending'"
+                  class="btn btn-sm btn-warning me-2"
+                  @click="orderStore.cancelOrder(o.maHoaDon)">
+            Huỷ duyệt
+          </button>
 
-            <button class="btn btn-sm btn-primary me-3 ms-3" @click="openEditModal(o)">
-              Edit
-            </button>
+         
+          <button v-if="o.trangThai === 'success'" 
+                  class="btn btn-sm btn-warning me-2"
+                  @click="orderStore.cancelOrder(o.maHoaDon)">
+            Huỷ duyệt
+          </button>
 
-            <button class="btn btn-sm btn-danger" @click="confirmDelete(o)">
-              Delete
-            </button>
 
-          </td>
+          <button class="btn btn-sm btn-primary me-3 ms-3" @click="openEditModal(o)">
+            Edit
+          </button>
+
+          <button class="btn btn-sm btn-danger" @click="confirmDelete(o)">
+            Delete
+          </button>
+
+        </td>
+
 
         </tr>
       </tbody>

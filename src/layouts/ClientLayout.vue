@@ -5,6 +5,10 @@ import { ref } from 'vue'
 import CartModal from '@/views/client/CartModal.vue'
 import OrderHistoryModal from '@/views/client/OrderHistoryModal.vue' 
 import { useToast } from 'vue-toastification'
+import ChangePasswordModal from "@/components/ChangePasswordModal.vue"
+
+const showPasswordModal = ref(false)
+
 
 const loginStore = useLoginStore()
 const router = useRouter()
@@ -53,8 +57,14 @@ const openOrderHistory = () => {
         <li v-if="loginStore.user" class="nav-item me-3">
           <span class="nav-link">Xin chào {{ loginStore.user.username }}</span>
         </li>
-         <li v-if="loginStore.user" class="nav-item">
+         <!-- <li v-if="loginStore.user" class="nav-item">
           <RouterLink to="/resetpassword" class="text-decoration-none ms-1">Đổi mật khẩu</RouterLink>
+        </li> -->
+         <li v-if="loginStore.user" class="nav-item">
+         <button class="btn text-primary" @click="showPasswordModal = true">
+            Đổi mật khẩu
+        </button>
+
         </li>
         <li v-if="loginStore.user" class="nav-item me-3">
           <button @click="openOrderHistory" class="btn text-primary">
@@ -86,6 +96,13 @@ const openOrderHistory = () => {
 
 <CartModal v-model:show="showCartModal" />
 <OrderHistoryModal v-model:show="showOrderHistory" />
+<ChangePasswordModal
+  :show="showPasswordModal"
+  @close="showPasswordModal = false"
+  @updated="() => toast.success('Mật khẩu đã được cập nhật!')"
+/>
+
+
 </template>
 
 <style scoped>

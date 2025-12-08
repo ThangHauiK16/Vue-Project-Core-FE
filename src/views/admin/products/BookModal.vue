@@ -32,6 +32,10 @@
                   <label class="form-label">Giá bán</label>
                   <input type="number" class="form-control" v-model="form.giaBan" min="0" />
                 </div>
+                 <div class="mb-3">
+                  <label class="form-label">Số Lượng</label>
+                  <input type="number" class="form-control" v-model="form.soLuong" min="0" />
+                </div>
                 <div class="mb-3">
                   <label class="form-label">Tên tác giả</label>
                   <input type="text" class="form-control" v-model="form.tenTacGia" maxlength="100" />

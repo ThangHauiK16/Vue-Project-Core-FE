@@ -92,6 +92,7 @@ const openDetailModal = async (book) => {
           <th>STT</th>
           <th>Tên sách</th>
           <th class="text-center">Hình ảnh</th>
+          <th class="text-center">Số Lượng</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -110,6 +111,8 @@ const openDetailModal = async (book) => {
             >
             <span v-else>Chưa có ảnh</span>
           </td>
+
+          <td class="text-center">{{ s.soLuong }}</td>
 
           <td class="text-center align-middle">
             <button class="btn btn-sm btn-primary me-3 ms-3" @click="editBook(s)">Edit</button>
