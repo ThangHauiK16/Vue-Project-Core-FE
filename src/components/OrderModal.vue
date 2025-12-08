@@ -33,10 +33,27 @@ watch(() => props.book, () => {
   quantity.value = 1
 })
 
-const onPay = () => {
+// const onPay = () => {
+//     emit('pay', { book: props.book, quantity: quantity.value })
+//     toast.success('Thanh toán thành công!')
+// }
+const onPay = async () => {
+  try {
+    const res = await axios.get(`/api/book/${props.book.maSach}`)
+    const dbBook = res.data
+
+    if (dbBook.soLuong < quantity.value) {
+      toast.error(`Chỉ còn ${dbBook.soLuong} sản phẩm trong kho!`)
+      return
+    }
+
     emit('pay', { book: props.book, quantity: quantity.value })
     toast.success('Thanh toán thành công!')
+  } catch (err) {
+    toast.error('Không kiểm tra được số lượng sản phẩm!')
+  }
 }
+
 </script>
 
 

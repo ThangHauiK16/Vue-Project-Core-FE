@@ -19,15 +19,46 @@ const onOpenDetail = () => {
   emit('open-detail', props.book)
 }
 
-const onOrder = () => {
+// const onOrder = () => {
+//   const token = localStorage.getItem('accessToken')
+//   const role = getRoleFromToken(token)
+//   if (role !== 'Customer') {
+//     toast.warning('Chỉ khách hàng mới có thể đặt hàng!')
+//     return
+//   }
+//   emit('order', props.book)
+// }
+
+const onOrder = async () => {
   const token = localStorage.getItem('accessToken')
   const role = getRoleFromToken(token)
+
   if (role !== 'Customer') {
     toast.warning('Chỉ khách hàng mới có thể đặt hàng!')
     return
   }
-  emit('order', props.book)
+
+  try {
+    const res = await axios.get(`/api/book/${props.book.maSach}`)
+    const dbBook = res.data
+
+    if (dbBook.soLuong <= 0) {
+      toast.error('Sản phẩm đã hết hàng!')
+      return
+    }
+
+    if (dbBook.soLuong < 1) {
+      toast.error(`Chỉ còn ${dbBook.soLuong} sản phẩm trong kho!`)
+      return
+    }
+
+    emit('order', props.book)
+
+  } catch (err) {
+    toast.error('Không kiểm tra được số lượng sản phẩm!')
+  }
 }
+
 
 const onAddToCart = async () => {
   const token = localStorage.getItem('accessToken')
