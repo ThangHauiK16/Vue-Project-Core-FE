@@ -119,6 +119,16 @@ export const useProductStore = defineStore('product', () => {
         }
     }
 
+    async function filterByPrice(page, category, sortPrice, pageSize = 8) {
+        const res = await axios.get("/api/book/sort", {
+            params: { page, pageSize, category, sortPrice }
+        });
+
+        books.value = res.data.items;
+        totalPages.value = res.data.totalPages;
+    }
+
+
     return {
         books,
         loading,
@@ -133,6 +143,7 @@ export const useProductStore = defineStore('product', () => {
         nextPage,
         deleteBook,
         addBook,
-        updateBook
+        updateBook,
+        filterByPrice,
     }
 })

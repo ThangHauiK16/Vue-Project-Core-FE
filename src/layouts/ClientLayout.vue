@@ -93,6 +93,46 @@ const openOrderHistory = () => {
   <RouterView />
 </main>
 
+<footer class="bg-light text-dark mt-5 py-4 border-top">
+  <div class="container">
+    <div class="row">
+
+      <!-- Cột 1 -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold text-primary">Book Store</h5>
+        <p class="small">
+          Nền tảng mua sách trực tuyến nhanh chóng – tiện lợi – giá tốt.
+          Cung cấp hàng ngàn đầu sách đa dạng cho mọi đối tượng.
+        </p>
+      </div>
+
+      <!-- Cột 2 -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Liên hệ</h5>
+        <ul class="list-unstyled small">
+          <li>📍 Hà Nội – Việt Nam</li>
+          <li>📞 0123 456 789</li>
+          <li>📧 support@bookstore.com</li>
+        </ul>
+      </div>
+
+      <!-- Cột 3 -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Theo dõi chúng tôi</h5>
+        <div class="d-flex gap-2 fs-4">
+          <a href="#" class="text-primary"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-danger"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-info"><i class="bi bi-twitter"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-3 small text-muted">
+      © 2025 Book Store. All rights reserved.
+    </div>
+  </div>
+</footer>
 
 <CartModal v-model:show="showCartModal" />
 <OrderHistoryModal v-model:show="showOrderHistory" />
@@ -121,4 +161,20 @@ const openOrderHistory = () => {
   border-color: #0d6efd;
   cursor: pointer;
 }
+footer a {
+  text-decoration: none;
+}
+
+footer a:hover {
+  opacity: 0.7;
+}
+
+footer .bi {
+  transition: 0.3s;
+}
+
+footer .bi:hover {
+  transform: scale(1.15);
+}
+
 </style>
