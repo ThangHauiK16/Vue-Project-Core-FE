@@ -102,8 +102,8 @@ const onAddToCart = async () => {
        style="cursor: pointer;"> 
     <img :src="getFullImageUrl(book.imageUrl)" :alt="book.tenSach" class="card-img-top" style="object-fit: contain; height: 300px;">
     <div class="card-body text-center">
-      <div class="card-title fw-semibold" style="height:2rem;">{{ book.tenSach }}</div>
-      <div class="card-text text-danger">{{ book.giaBan.toLocaleString('vi-VN') }} VNĐ</div>
+      <div class=" fs-5 fw-semibold" style="height:2rem;">{{ book.tenSach }}</div>
+      <div class="fs-5 fw-semibold text-danger" style="height:2rem;">{{ book.giaBan.toLocaleString('vi-VN') }} VNĐ</div>
       <div class="d-flex justify-content-center gap-2 mt-2">
         <button class="btn btn-success btn-sm" @click="onOrder">Thanh toán</button>
         <button class="btn btn-primary btn-sm" @click="onAddToCart">Thêm vào giỏ hàng</button>
@@ -112,3 +112,14 @@ const onAddToCart = async () => {
   </div>
 </div>
 </template>
+<style scoped>
+  .card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  }
+
+</style>

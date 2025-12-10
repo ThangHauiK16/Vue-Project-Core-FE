@@ -101,7 +101,7 @@ const openOrderHistory = () => {
       <div class="col-md-4 mb-3">
         <h5 class="fw-bold text-primary">Book Store</h5>
         <p class="small">
-          Nền tảng mua sách trực tuyến nhanh chóng – tiện lợi – giá tốt.
+          Nền tảng mua sách trực tuyến nhanh chóng - tiện lợi - giá tốt.
           Cung cấp hàng ngàn đầu sách đa dạng cho mọi đối tượng.
         </p>
       </div>
@@ -110,7 +110,7 @@ const openOrderHistory = () => {
       <div class="col-md-4 mb-3">
         <h5 class="fw-bold">Liên hệ</h5>
         <ul class="list-unstyled small">
-          <li>📍 Hà Nội – Việt Nam</li>
+          <li>📍 Hà Nội - Việt Nam</li>
           <li>📞 0123 456 789</li>
           <li>📧 support@bookstore.com</li>
         </ul>
@@ -123,6 +123,7 @@ const openOrderHistory = () => {
           <a href="#" class="text-primary"><i class="bi bi-facebook"></i></a>
           <a href="#" class="text-danger"><i class="bi bi-instagram"></i></a>
           <a href="#" class="text-info"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="text-dark"><i class="bi bi-tiktok"></i></a>
         </div>
       </div>
 
