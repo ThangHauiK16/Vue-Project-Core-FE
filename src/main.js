@@ -11,12 +11,20 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "bootstrap-icons/font/bootstrap-icons.css"
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import { useLoginStore } from './stores/LoginStore'
 
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(Toast, { position: 'bottom-right', timeout: 1500 })
+
+const loginStore = useLoginStore()
+loginStore.init()
+
+
 app.use(router)
+
+
 
 app.mount('#app')

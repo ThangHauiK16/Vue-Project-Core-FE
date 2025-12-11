@@ -9,7 +9,7 @@ export function getRoleFromToken(token) {
     return 'customer'
   }
 }
-const apiBookUrl = "https://localhost:7244/api/Sach";
+const apiBookUrl = "https://localhost:7244/api/book";
 const getBaseUrl = () => {
     const url = new URL(apiBookUrl);
     return `${url.protocol}//${url.host}`;

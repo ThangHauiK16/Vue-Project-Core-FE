@@ -29,9 +29,14 @@
               <tbody>
                 <tr v-for="(item, index) in order?.order_Books || []" :key="index">
                   <td>{{ item.maSach }}</td>
-                  <td>{{ getBookName(item.maSach) }}</td>
+                  <!-- <td>{{ getBookName(item.maSach) }}</td>
                   <td>{{ item.soLuong }}</td>
-                  <td>{{ formatCurrency(getPrice(item)) }}</td>
+                  <td>{{ formatCurrency(getPrice(item)) }}</td> -->
+
+                  <td>{{ item.tenSach }}</td>
+                  <td>{{ item.soLuong }}</td>
+                  <td>{{ (item.gia * item.soLuong).toLocaleString('vi-VN') }}</td>
+
                 </tr>
                 <tr v-if="!order?.order_Books || order.order_Books.length === 0">
                   <td colspan="4" class="text-center">Không có sản phẩm nào.</td>
@@ -76,25 +81,42 @@ const formatCurrency = (amount) => {
   return Number(amount).toLocaleString('vi-VN') + ' VNĐ'
 }
 
-const formatDate = (iso) => iso ? new Date(iso).toLocaleString('vi-VN') : ''
+// const formatDate = (iso) => iso ? new Date(iso).toLocaleString('vi-VN') : ''
 
-const getBookName = (maSach) => {
-  const book = props.books.find(b => b.maSach === maSach)
-  return book ? book.tenSach : 'Không rõ'
-}
+const formatDate = (iso) => {
+  if (!iso) return '';
 
-const getPrice = (item) => {
-  const book = props.books.find(b => b.maSach === item.maSach)
-  return book ? book.giaBan * item.soLuong : 0
-}
+  const d = new Date(iso);
+  d.setHours(d.getHours() + 7);
+
+  return d.toLocaleString('vi-VN');
+};
+
+// const getBookName = (maSach) => {
+//   const book = props.books.find(b => b.maSach === maSach)
+//   return book ? book.tenSach : 'Không rõ'
+// }
+
+// const getPrice = (item) => {
+//   const book = props.books.find(b => b.maSach === item.maSach)
+//   return book ? book.giaBan * item.soLuong : 0
+// }
+
+// const totalPrice = computed(() => {
+//   if (!props.order?.order_Books) return 0
+//   return props.order.order_Books.reduce((sum, item) => {
+//     const book = props.books.find(b => b.maSach === item.maSach)
+//     return sum + (book ? book.giaBan * item.soLuong : 0)
+//   }, 0)
+// })
 
 const totalPrice = computed(() => {
   if (!props.order?.order_Books) return 0
   return props.order.order_Books.reduce((sum, item) => {
-    const book = props.books.find(b => b.maSach === item.maSach)
-    return sum + (book ? book.giaBan * item.soLuong : 0)
+    return sum + (item.gia * item.soLuong)
   }, 0)
 })
+
 const statusToText = (status) => {
   switch (status) {
     case "pending": return "Chờ xử lý"

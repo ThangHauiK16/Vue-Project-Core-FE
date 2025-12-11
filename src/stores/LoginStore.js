@@ -163,6 +163,25 @@ export const useLoginStore = defineStore('login', () => {
         cartCount.value = count
     }
 
+    const init = async () => {
+    if (!accessToken.value) {
+        logout()
+        return
+    }
+
+    try {
+        await axios.get('/api/auth/check-token')
+
+        refreshAccessToken()
+        fetchCart()
+
+    } catch (err) {
+        
+        logout()
+    }
+}
+
+
     return {
         user,
         accessToken,
@@ -174,6 +193,7 @@ export const useLoginStore = defineStore('login', () => {
         login,
         logout,
         fetchCart,
-        setCartCount
+        setCartCount,
+        init
     }
 })
