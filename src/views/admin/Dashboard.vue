@@ -25,7 +25,7 @@ const revenueChart = ref(null);
 const productChart = ref(null);
 const orderChart = ref(null);
 
-// Dữ liệu từ backend
+
 const metrics = ref({
   totalRevenue: 0,
   totalOrders: 0,
@@ -57,7 +57,6 @@ const loadData = async () => {
 onMounted(async () => {
   await loadData();
 
-  // === Biểu đồ Doanh thu ===
   new Chart(revenueChart.value, {
     type: "bar",
     data: {
@@ -72,7 +71,6 @@ onMounted(async () => {
     }
   });
 
-  // === Biểu đồ Sản phẩm bán ===
   new Chart(productChart.value, {
     type: "line",
     data: {
@@ -88,7 +86,7 @@ onMounted(async () => {
     }
   });
 
-  // === Biểu đồ Đơn hàng ===
+
   new Chart(orderChart.value, {
     type: "pie",
     data: {
@@ -111,7 +109,6 @@ onMounted(async () => {
   <div class="container mt-4">
     <h2 class="fw-bold mb-4 text-primary">📊 Thống Kê Doanh Số</h2>
 
-    <!-- Cards -->
     <div class="row mb-4">
       <div class="col-md-4">
         <div class="p-3 bg-primary text-white rounded shadow">
@@ -133,7 +130,6 @@ onMounted(async () => {
       </div>
     </div>
 
-    <!-- Charts -->
     <div class="row">
       <div class="col-md-6 mb-4">
         <h5 class="text-center">Doanh Thu Theo Tháng</h5>
