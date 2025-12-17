@@ -9,6 +9,8 @@ import ProductDetailModal from './ProductDetailModal.vue'
 
 const productStore = useProductStore()
 const search = ref("")
+const isEdit = ref(false)
+
 const currentBook = ref({})
 const modalTitle = ref('Thêm sách')
 const bookModal = ref(null)
@@ -41,22 +43,42 @@ const confirmDelete = (sach) => {
 const addBook = () => {
   modalTitle.value = 'Thêm sách'
   currentBook.value = {}
+  isEdit.value = false
   bookModal.value.showModal()
 }
 
 const editBook = (book) => {
   modalTitle.value = 'Cập nhật sách'
   currentBook.value = { ...book }
+  isEdit.value = true
   bookModal.value.showModal()
 }
 
+// const handleSaved = async (bookData) => {
+//   if (!bookData.maSach || !productStore.books.find(b => b.maSach === bookData.maSach)) {
+//     await productStore.addBook(bookData)
+//   } else {
+//     await productStore.updateBook(bookData)
+//   }
+// }
+
 const handleSaved = async (bookData) => {
-  if (!bookData.maSach || !productStore.books.find(b => b.maSach === bookData.maSach)) {
-    await productStore.addBook(bookData)
-  } else {
+  if (isEdit.value) {
     await productStore.updateBook(bookData)
+  } else {
+    const exists = productStore.books.some(b => b.maSach === bookData.maSach)
+    if (exists) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Trùng mã sách',
+        text: 'Mã sách đã tồn tại, vui lòng nhập mã khác'
+      })
+      return
+    }
+    await productStore.addBook(bookData)
   }
 }
+
 
 const openDetailModal = async (book) => {
   const res = await axios.get(`/api/book/${book.maSach}`)

@@ -52,7 +52,7 @@ const selectCategory = (cat) => {
   <div class="p-3 bg-light rounded shadow-sm" style="margin-top:2rem;">
     <h5 class="text-center fw-bold mb-3 text-primary">Thể Loại</h5>
 
-    <div id="category-box" style="max-height:300px; overflow-y:auto;">
+    <div id="category-box" style="max-height:230px; overflow-y:auto;">
       <ul class="list-unstyled">
         <li 
           v-for="cat in visibleCategories"
