@@ -84,6 +84,36 @@ export const useUserStore = defineStore('user', () => {
 const searchUser = (keyword) => {
   getUsers(1, keyword.trim())
 }
+
+const exportExcel = async (keyword = '') => {
+  try {
+    const res = await axios.get('/api/user/export-excel', {
+      params: { keyword },
+      responseType: 'blob', 
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    const blob = new Blob([res.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    })
+
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `Users_${new Date().toISOString().slice(0,19)}.xlsx`
+    link.click()
+
+    window.URL.revokeObjectURL(url)
+
+    toast.success('Xuất Excel thành công')
+  } catch (err) {
+    error.value = err.response?.data?.message || 'Lỗi khi xuất Excel'
+    toast.error(error.value)
+  }
+}
+
   return {
     users,
     loading,
@@ -97,6 +127,7 @@ const searchUser = (keyword) => {
     prevPage,
     nextPage,
     updateUser,
-    searchUser
+    searchUser,
+    exportExcel
   }
 })

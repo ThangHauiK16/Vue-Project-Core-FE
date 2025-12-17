@@ -128,6 +128,56 @@ export const useProductStore = defineStore('product', () => {
         totalPages.value = res.data.totalPages;
     }
 
+    const downloadTemplate = async () => {
+        try {
+            const res = await axios.get('/api/book/download-template', {
+            responseType: 'blob'
+            })
+
+            const blob = new Blob([res.data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = 'Book_Import_Template.xlsx'
+            a.click()
+            window.URL.revokeObjectURL(url)
+
+            toast.success('Đã tải file Excel mẫu')
+        } catch (err) {
+            toast.error('Không thể tải file mẫu')
+        }
+    }
+
+    const importExcel = async (file) => {
+        if (!file) return
+
+        loading.value = true
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+
+            const token = getToken()
+
+            await axios.post('/api/book/import-excel', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`
+            }
+            })
+
+            toast.success('Import Excel thành công')
+            await getBooks(1)
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Import Excel thất bại')
+        } finally {
+            loading.value = false
+        }
+    }
+
+
 
     return {
         books,
@@ -145,5 +195,7 @@ export const useProductStore = defineStore('product', () => {
         addBook,
         updateBook,
         filterByPrice,
+        downloadTemplate,
+        importExcel
     }
 })

@@ -18,6 +18,8 @@ const bookModal = ref(null)
 const showDetail = ref(false)
 const detailBook = ref(null)
 
+const excelInput = ref(null)
+
 onMounted(() => {
   productStore.getBooks(1,'',5)
 })
@@ -54,13 +56,6 @@ const editBook = (book) => {
   bookModal.value.showModal()
 }
 
-// const handleSaved = async (bookData) => {
-//   if (!bookData.maSach || !productStore.books.find(b => b.maSach === bookData.maSach)) {
-//     await productStore.addBook(bookData)
-//   } else {
-//     await productStore.updateBook(bookData)
-//   }
-// }
 
 const handleSaved = async (bookData) => {
   if (isEdit.value) {
@@ -86,6 +81,32 @@ const openDetailModal = async (book) => {
   showDetail.value = true
 }
 
+const handleImportClick = async () => {
+  const result = await Swal.fire({
+    title: 'Import Excel',
+    text: 'Bạn đã có file Excel mẫu chưa?',
+    icon: 'question',
+    showCancelButton: true,
+    showDenyButton: true,
+    confirmButtonText: 'Có rồi',
+    denyButtonText: 'Chưa có',
+    cancelButtonText: 'Hủy'
+  })
+
+  if (result.isConfirmed) {
+    excelInput.value.click()
+  } else if (result.isDenied) {
+    productStore.downloadTemplate()
+  }
+}
+
+const handleFileSelected = async (e) => {
+  const file = e.target.files[0]
+  if (!file) return
+
+  await productStore.importExcel(file)
+  e.target.value = '' 
+}
 </script>
 
 <template>
@@ -93,14 +114,25 @@ const openDetailModal = async (book) => {
     <h2>Quản lý sách</h2>
     <div class="d-flex justify-content-between">
       <button class="btn btn-success mb-2"  @click="addBook">Add Book</button>
-      <div class="input-group input-group-sm mb-2" style="max-width: 350px;">
-        <input type="text" class="form-control" placeholder="Nhập tên sách"
-               v-model="search" @keyup.enter="searchBook">
-        <button class="btn btn-outline-secondary" type="button" @click="searchBook">
-          Tìm Kiếm
-        </button>
+      <div class="input-group input-group-sm mb-2" style="max-width: 450px;">
+        <input type="text" class="form-control" placeholder="Nhập tên sách" v-model="search" @keyup.enter="searchBook">
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary" type="button" @click="searchBook">
+            Tìm Kiếm
+          </button>
+          <button class="btn btn-warning " @click="handleImportClick">
+            Import 
+          </button>
+       </div>
       </div>
     </div>
+    <input
+      type="file"
+      ref="excelInput"
+      accept=".xlsx,.xls"
+      style="display: none"
+      @change="handleFileSelected"
+    />
     <BookModal 
       ref="bookModal" 
       :model-value="currentBook" 
@@ -158,6 +190,6 @@ const openDetailModal = async (book) => {
       :book="detailBook" 
       @close="showDetail = false" 
     />
-
+    
   </div>
 </template>

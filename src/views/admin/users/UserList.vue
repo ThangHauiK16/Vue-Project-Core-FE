@@ -10,7 +10,6 @@ import UserDetailModal from './UserDetailModal.vue'
 
 const userStore = useUserStore()
 
-// state cho modal
 const showModal = ref(false)
 const selectedUser = ref(null)
 
@@ -20,12 +19,11 @@ const detailUser = ref(null)
 const keyword = ref("")
 
 
-// Lấy danh sách user
 onMounted(() => {
   userStore.getUsers(1,'',5)
 })
 
-// Xác nhận xóa
+
 const confirmDelete = (username) => {
   Swal.fire({
     title: `Bạn có chắc muốn xóa ${username}?`,
@@ -40,13 +38,12 @@ const confirmDelete = (username) => {
   })
 }
 
-// Mở modal edit
+
 const openEditModal = (user) => {
   selectedUser.value = user
   showModal.value = true
 }
 
-// Xử lý cập nhật user từ modal
 const handleUpdate = async (updatedUser) => {
   const payload = { username: updatedUser.username,
                     email: updatedUser.email,
@@ -55,7 +52,7 @@ const handleUpdate = async (updatedUser) => {
   await userStore.updateUser(updatedUser.username, payload);
   showModal.value = false;
 }
-// Mở modal lấy thông tin từ api ra
+
 const openDetailModal = async (user) => {
   const res = await axios.get(`/api/user/${user.username}`)
   detailUser.value = res.data
@@ -63,6 +60,11 @@ const openDetailModal = async (user) => {
 }
 const searchUser = () => {
   userStore.searchUser(keyword.value)  
+}
+
+
+const exportExcel = () => {
+  userStore.exportExcel(keyword.value)
 }
 
 
@@ -74,9 +76,14 @@ const searchUser = () => {
       <h2>Quản lý người dùng</h2>
      <div class="input-group input-group-sm mb-2" style="max-width: 350px;">
         <input  type="text" class="form-control" placeholder="Nhập username" v-model="keyword" @keyup.enter="searchUser" >
-        <button class="btn btn-outline-secondary" type="button" @click="searchUser">
-          Search
-        </button>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary" type="button" @click="searchUser">
+              Search
+          </button>
+          <button class="btn btn-success btn-sm" @click="exportExcel">
+              Export 
+          </button>
+        </div>
       </div>
     </div>
 

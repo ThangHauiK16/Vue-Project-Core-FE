@@ -20,6 +20,11 @@ app.use(createPinia())
 app.use(Toast, { position: 'bottom-right', timeout: 1500 })
 
 const loginStore = useLoginStore()
+if (!sessionStorage.getItem('browser_alive')) {
+    loginStore.logout()
+}
+
+sessionStorage.setItem('browser_alive', '1')
 loginStore.init()
 
 
